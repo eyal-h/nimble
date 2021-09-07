@@ -1,4 +1,5 @@
-﻿# api-ecs-demo-app
+
+# api-ecs-demo-app
 ## CI/CD
 
 I have used git actions for the CI/CD Pipeline, I Have a lot of knowledge related to Git Actions. 
@@ -19,17 +20,19 @@ Second Step (Terraform):
 
 I have added the ability to run terraform command as requested in the assignment.
 my git action is checking inside the commit message.
-if commit message contains /apply
+**if commit message contains /apply**
 * ci process will skip all other steps.
 * ci will only trigger terraform apply for the current repository files.
-if commit message contains /destroy
+
+**if commit message contains /destroy**
 * ci process will skip all other steps.
 * ci will only trigger terraform destroy.
 
 Another way to trigger terraform apply / destroy is from the actions tab:
-(actions)[https://github.com/eyal-h/nimble/actions]
+[actions](https://github.com/eyal-h/nimble/actions)
 On the workflows side menu click on Nimble-Apply or Nimble-Destroy
 then click on Run workflow and then click on the green Run workflow button.
+![Actions Tab Example](https://github.com/eyal-h/nimble/blob/main/Actions.png)
 
 ## Note:
 * I have no experience with AWS / TERRAFORM. 
