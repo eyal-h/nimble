@@ -24,6 +24,12 @@ variable "app_port" {
   description = "portexposed on the docker image"
 }
 
+variable "access_port" {
+  default     = "80"
+  description = "portexposed on the docker image"
+}
+
+
 variable "app_count" {
   default     = "2" #choose 2 bcz i have choosen 2 AZ
   description = "numer of docker containers to run"

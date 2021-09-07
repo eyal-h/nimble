@@ -8,7 +8,7 @@ resource "aws_alb" "alb" {
 
 resource "aws_alb_target_group" "nimbleapp-tg" {
   name        = "nimbleapp-tg"
-  port        = 8080
+  port        = var.app_port
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = aws_vpc.nimble-vpc.id
@@ -27,7 +27,7 @@ resource "aws_alb_target_group" "nimbleapp-tg" {
 #redirecting all incomming traffic from ALB to the target group
 resource "aws_alb_listener" "nimbleapp" {
   load_balancer_arn = aws_alb.alb.id
-  port              = 80
+  port              = var.access_port
   protocol          = "HTTP"
 
   default_action {
