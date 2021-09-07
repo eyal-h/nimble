@@ -39,7 +39,6 @@ then click on Run workflow and then click on the green Run workflow button.
    all the things I have implemented was from learning on the go.
 
 * As an Improvement my suggestion is to Implement branch protection.
-   all new code will be pushed to a feature branch after it passed tests / lint... the developer will be able to merge   
-   it to master branch.
+   all new code will be pushed to a feature branch after it passed tests / lint... the developer will be able to merge it to master branch.
 
 * I had some issue with go mod I have added "RUN go mod init example.com/m" to the Dockerfile to solve it.
