@@ -78,8 +78,7 @@ jobs:
         
       - name: Terraform Apply        
         run: terraform apply -auto-approve
-  terraform-destroy:
-    needs: build
+  terraform-destroy:    
     name: 'Terraform-Destroy'
     runs-on: ubuntu-latest
     if: ${{ contains(github.event.head_commit.message, '/destroy') }}
