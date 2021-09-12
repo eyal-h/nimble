@@ -15,15 +15,14 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 100
-    
       - uses: marceloprado/has-changed-path@v1
         id: app-changes
         with:
-          paths: app/**
+          paths: 'app/**'
       - uses: marceloprado/has-changed-path@v1
         id: infra-changes
         with:
-          paths: .tf
+          paths: '**.tf'
   build:
     runs-on: ubuntu-latest
     if: steps.app-changes.outputs.changed == 'true' && ${{ !contains(github.event.head_commit.message, '/destroy') && !contains(github.event.head_commit.message, '/apply')}}
