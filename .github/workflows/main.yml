@@ -12,13 +12,10 @@ jobs:
   track:
     runs-on: ubuntu-latest
     steps:
-      - uses: dorny/paths-filter@v2
+      - uses: marceloprado/has-changed-path@v1
         id: app-changes
         with:
-          filters: |
-            src:
-              - 'app/**'
-
+          paths: app/**
   build:
     runs-on: ubuntu-latest
     if: steps.app-changes.outputs.app == 'true' && ${{ !contains(github.event.head_commit.message, '/destroy') && !contains(github.event.head_commit.message, '/apply')}}
