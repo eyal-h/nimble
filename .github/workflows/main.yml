@@ -9,28 +9,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  track:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 100
-      - uses: marceloprado/has-changed-path@v1
-        id: app-changes
-        with:
-          paths: 'app/**'
-
   build:
     if: ${{ !contains(github.event.head_commit.message, '/destroy') && !contains(github.event.head_commit.message, '/apply')}}
     runs-on: ubuntu-latest    
-    needs: track
     steps:
       - name: Check Out Repo 
         uses: actions/checkout@v2    
       - uses: marceloprado/has-changed-path@v1
         id: app-changes
         with:
-          paths: 'app/**'        
+          paths: app/** 
       - name: Login to Docker Hub
         if: steps.app-changes.outputs.changed == 'true'
         uses: docker/login-action@v1
