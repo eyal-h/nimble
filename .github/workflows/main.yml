@@ -25,7 +25,7 @@ jobs:
           paths: '**.tf'
   build:
     runs-on: ubuntu-latest
-    if: steps.app-changes.outputs.changed == 'true' && ${{ !contains(github.event.head_commit.message, '/destroy') && !contains(github.event.head_commit.message, '/apply')}}
+    if: (steps.app-changes.outputs.changed == 'true') && ${{ !contains(github.event.head_commit.message, '/destroy') && !contains(github.event.head_commit.message, '/apply')}}
     needs: track
     steps:     
       - name: Check Out Repo 
@@ -56,7 +56,7 @@ jobs:
     needs: build
     name: 'Terraform'
     runs-on: ubuntu-latest
-    if: steps.infra-changes.outputs.changed == 'true' && ${{ !contains(github.event.head_commit.message, '/destroy') && !contains(github.event.head_commit.message, '/apply')}}
+    if: (steps.infra-changes.outputs.changed == 'true') && ${{ !contains(github.event.head_commit.message, '/destroy') && !contains(github.event.head_commit.message, '/apply')}}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
