@@ -1,47 +1,60 @@
-resource "aws_ecs_cluster" "nimble-cluster" {
-  name = "nimbleapp-cluster"
-}
+resource "aws_ecs_cluster" "cluster" {
+  name               = local.ecs["cluster_name"]
+  capacity_providers = ["FARGATE"]
 
-data "template_file" "nimbleapp" {
-  template = file("./templates/image/image.json")
-
-  vars = {
-    app_image      = var.app_image
-    app_port       = var.app_port
-    fargate_cpu    = var.fargate_cpu
-    fargate_memory = var.fargate_memory
-    aws_region     = var.aws_region
+  default_capacity_provider_strategy {
+    capacity_provider = "FARGATE"
+    weight            = "100"
   }
 }
 
-resource "aws_ecs_task_definition" "nimble-def" {
-  family                   = "nimbleapp-task"
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
-  network_mode             = "awsvpc"
-  requires_compatibilities = ["FARGATE"]
-  cpu                      = var.fargate_cpu
-  memory                   = var.fargate_memory
-  container_definitions    = data.template_file.nimbleapp.rendered
+resource "aws_ecs_task_definition" "task" {
+  family = "service"
+  requires_compatibilities = [
+    "FARGATE",
+  ]
+  execution_role_arn = aws_iam_role.fargate.arn
+  network_mode       = "awsvpc"
+  cpu                = 256
+  memory             = 512
+  container_definitions = jsonencode([
+    {
+      name      = local.container.name
+      image     = local.container.image
+      essential = true
+      portMappings = [
+        for port in local.container.ports :
+        {
+          containerPort = port
+          hostPort      = port
+        }
+      ]
+    }
+  ])
 }
 
-resource "aws_ecs_service" "nimble-service" {
-  name            = "nimbleapp-service"
-  cluster         = aws_ecs_cluster.nimble-cluster.id
-  task_definition = aws_ecs_task_definition.nimble-def.arn
-  desired_count   = var.app_count
-  launch_type     = "FARGATE"
+resource "aws_ecs_service" "service" {
+  name            = local.ecs.service_name
+  cluster         = aws_ecs_cluster.cluster.id
+  task_definition = aws_ecs_task_definition.task.arn
+  desired_count   = 1
 
   network_configuration {
-    security_groups  = [aws_security_group.ecs_sg.id]
-    subnets          = aws_subnet.private.*.id
+    subnets          = aws_subnet.public.*.id
     assign_public_ip = true
   }
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.nimbleapp-tg.arn
-    container_name   = "nimbleapp"
-    container_port   = var.app_port
+    target_group_arn = aws_lb_target_group.group.arn
+    container_name   = local.container.name
+    container_port   = 8080
   }
-
-  depends_on = [aws_alb_listener.nimbleapp, aws_iam_role_policy_attachment.ecs_task_execution_role]
+  deployment_controller {
+    type = "ECS"
+  }
+  capacity_provider_strategy {
+    base              = 0
+    capacity_provider = "FARGATE"
+    weight            = 100
+  }
 }

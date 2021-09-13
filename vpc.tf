@@ -1,5 +1,3 @@
-# network.tf
-
 resource "aws_vpc" "nimble-vpc" {
   cidr_block = "172.16.0.0/16"
 }

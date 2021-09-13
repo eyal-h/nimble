@@ -1,0 +1,37 @@
+locals {
+  region = var.aws_region
+  ecr_defaults = {
+    repository_name = "app-registry"
+  }
+  ecr = merge(local.ecr_defaults, var.ecr_values)
+
+  ecs_defaults = {
+    cluster_name = "ecs-cluster"
+    service_name = "ecs-service"
+  }
+  ecs = merge(local.ecs_defaults, var.ecs_values)
+
+  lb_defaults = {
+    name     = "tf-alb"
+    internal = false
+    target_group = {
+      name     = "tf-alb-tg"
+      port     = 8080
+      protocol = "HTTP"
+    }
+  }
+  lb = merge(local.lb_defaults, var.lb_values)
+
+  vpc_defaults = {
+    id = ""
+  }
+  vpc             = merge(local.vpc_defaults, var.vpc)
+  use_default_vpc = local.vpc.id == ""
+
+  container_defaults = {
+    name  = "application"
+    image = "262425327259.dkr.ecr.us-east-1.amazonaws.com/app-registry:latest"
+    ports = [8080]
+  }
+  container = merge(local.container_defaults, var.container)
+}
