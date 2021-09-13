@@ -20,9 +20,10 @@ jobs:
         id: app-changes
         with:
           paths: 'app/**'
-      - uses: actions/setup-go@v2
-        with:
-          go-version: '^1.16' # The Go version to download (if necessary) and use.
+      - name: go get
+        run: |
+          git config --global url."https://${{ secrets.PAT }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+          go get -v -u ./...
           
       - name: Login to Docker Hub
         if: steps.app-changes.outputs.changed == 'true'
