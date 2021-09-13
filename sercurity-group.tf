@@ -9,7 +9,7 @@ resource "aws_security_group" "alb-sg" {
   ingress {
     protocol    = "tcp"
     from_port   = var.access_port
-    to_port     = var.app_port
+    to_port     = var.access_port
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -30,7 +30,7 @@ resource "aws_security_group" "ecs_sg" {
   ingress {
     protocol        = "tcp"
     from_port       = var.access_port
-    to_port         = var.app_port
+    to_port         = var.access_port
     security_groups = [aws_security_group.alb-sg.id]
   }
 

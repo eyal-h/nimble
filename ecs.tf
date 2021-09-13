@@ -47,7 +47,7 @@ resource "aws_ecs_service" "service" {
   load_balancer {
     target_group_arn = aws_lb_target_group.group.arn
     container_name   = local.container.name
-    container_port   = 8080
+    container_port   = 80
   }
   deployment_controller {
     type = "ECS"

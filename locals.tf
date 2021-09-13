@@ -16,7 +16,7 @@ locals {
     internal = false
     target_group = {
       name     = "tf-alb-tg"
-      port     = 8080
+      port     = 80
       protocol = "HTTP"
     }
   }
@@ -31,7 +31,7 @@ locals {
   container_defaults = {
     name  = "application"
     image = "262425327259.dkr.ecr.us-east-1.amazonaws.com/app-registry:latest"
-    ports = [8080]
+    ports = [80]
   }
   container = merge(local.container_defaults, var.container)
 }
