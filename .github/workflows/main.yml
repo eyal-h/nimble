@@ -27,6 +27,7 @@ jobs:
       - name: go get
         run: |
           git config --global url."https://${{ secrets.GH_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+          go mod init
           go get -v -u ./...
           
       - name: Login to Docker Hub
