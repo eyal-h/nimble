@@ -22,5 +22,5 @@ func RunAPI() {
 }
 
 func Hello(c *gin.Context) {
-	c.JSON(200, "hello11!")
+	c.JSON(200, "hello_ecr!")
 }
