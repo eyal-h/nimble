@@ -59,7 +59,7 @@ jobs:
       
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition service \
+          aws ecs describe-task-definition --task-definition nimbleapp-task \
           --query taskDefinition > task-definition.json
       
       - name: Fill in the new image ID in the Amazon ECS task definition
@@ -67,7 +67,7 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: application
+          container-name: nimbleapp
           image: ${{ steps.build-image.outputs.image }}
       
       - name: Deploy Amazon ECS task definition
