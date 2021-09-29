@@ -54,4 +54,14 @@ we will create a server image and this image will be pushed to the environment w
 
 I will use blue / green deployment strategy we can use tags. i will deploy new servers and at the end we will redirect the traffic from the load balancer to the new servers.
 
+When we create the new servers we will create a new load balancer, then we will use dns round robin load balancing. That will redirect new clients to the new load balancer,
+The old balancer will not get a new connection and when it has zero session, we will remove the old servers / load balancer.
+
+https://www.digitalocean.com/community/tutorials/how-to-configure-dns-round-robin-load-balancing-for-high-availability
+
+https://blog.logrocket.com/zero-downtime-deploys-with-digitalocean-github-and-docker
+
+
+
+
 
