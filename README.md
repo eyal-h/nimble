@@ -25,6 +25,9 @@ On the workflows side menu click on Nimble-Apply or Nimble-Destroy
 then click on Run workflow and then click on the green Run workflow button.
 ![Actions Tab Example](https://github.com/eyal-h/nimble/blob/main/Actions.png)
 
+# Address
+http://nimbleapp-load-balancer-2141092984.us-east-1.elb.amazonaws.com/
+
 
 ## Note:
 * I have no experience with AWS / TERRAFORM. 
